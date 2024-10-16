@@ -1,0 +1,78 @@
+CREATE DATABASE QLBH_2341;
+GO
+
+USE QLBH_2341;
+GO
+
+--Bang NhaCungCap
+create table NhaCungCap(
+	maNCC char(10) primary key,
+	tenNCC nvarchar(50) not null,
+	diaChiNCC varchar(50) not null,
+	SDT varchar(15) not null,
+	nhanVienLienHe varchar(50),
+);
+--Bang PhieuNhap
+create table PhieuNhap(
+	maPN char(7) primary key,
+	ngayNhapHang date not null,
+);
+--Bang SanPham
+create table SanPham(
+	maSP char(7) primary key,
+	tenSP nvarchar(50) not null,
+	donGiaBan money not null,
+	soLuongHienCon bigint,
+	soLuongCanDuoi smallint ,
+);
+--Bang ChiTietNhapHang
+create table ChiTietPhieuNhap(
+	maPN char(7),
+	maSP char(7),
+	soLuongNhap int not null,
+	giaNhap money not null,
+	primary key (maPN,maSP),
+	foreign key (maPN) references PhieuNhap(maPN),
+	foreign key (maSP) references SanPham(maSP),
+);
+--Bang DonDatHang_HoaDon
+create table DonDatHang_HoaDon(
+	maDH char(10) primary key,
+	ngayTaoDH date not null,
+	diaChiGiaoHang nvarchar(20) not null,
+	SDTGiaoHang nvarchar(20) not null,
+	maHoaDonDienTu char(10) not null,
+	ngayThanhToan date not null,
+	ngayGiaoHang date not null,
+	trangThaiDonHang nvarchar(20) not null,
+);
+-- Bang KhachHang
+create table KhachHang(
+	maKH char(10) primary key,
+	tenKH NVARCHAR(50) not null,
+	diachiKH nvarchar(50) not null,
+	SDT varchar(15) not null,
+	Email varchar(20),
+	SoDuTaiKhoan money,	
+ ); 
+--Bang NhanVien
+create table NhanVien(
+	maNV char(10) primary key,
+	tenNV nvarchar(20) not null,
+	SDT varchar(20) not null,
+	Email varchar(20) not null,
+	gioiTinh bit,
+	DoB date,
+	Salary money,
+);
+--Bang ChiTietDonHang
+create table ChiTietDonHang(
+	maDH char(10),
+	maSP char(7),
+	soLuongDat int not null,
+	donGia money not null,
+	primary key (maDH,maSP),
+	foreign key (maDH) references DonDatHang_HoaDon(maDH),
+	foreign key (maSP) references SanPham(maSP),
+);
+
